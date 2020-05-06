@@ -16,7 +16,7 @@ npm install -g pretty-dynamo
 
 ```sh
 
-pretty-dynamo -f input.json
+pretty-dynamo unmarshall -f input.json
 
 ```
 
@@ -24,6 +24,8 @@ or provide output
 
 ```sh
 
-pretty-dynamo -f -o output.json input.json
+pretty-dynamo unmarshall -f -o output.json input.json
 
 ```
+
+
