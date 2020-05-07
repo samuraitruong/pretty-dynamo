@@ -25,11 +25,18 @@ exports.handler = function (argv) {
     content = fs.readFileSync(content, 'utf8');
   }
   const json = JSON.parse(content);
-  const unmarshall = AWS.DynamoDB.Converter.unmarshall(
-    json.Items || json.Item || json
-  );
+  let unmarshall = json;
+
+  if (json.Item) {
+    unmarshall = AWS.DynamoDB.Converter.unmarshall(json.Item);
+  }
+  if (json.Items) {
+    unmarshall.Items = json.Items.map((item) =>
+      AWS.DynamoDB.Converter.unmarshall(item)
+    );
+  }
   if (argv.output) {
     fs.writeFileSync(argv.output, JSON.stringify(unmarshall, null, 4));
     console.log('Output save to: ', argv.output);
-  } else console.log(unmarshall);
+  } else console.log(JSON.stringify(unmarshall, null, 4));
 };
